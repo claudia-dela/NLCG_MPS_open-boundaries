@@ -28,7 +28,7 @@ function [A] = BuildA(B,P)
 			end
 			for a=1:D1
 		    		for b=1:D2
-		        		        T(i,a,b) = (reshape(C(i,a,b,:),[1,s]))*P.';
+		        		T(i,a,b) = (reshape(C(i,a,b,:),[1,s]))*P.';
 		    		end
 			end
 	    	end
