@@ -25,7 +25,7 @@ nstep = 50;
 % number of sites
 list=[3];
 for N=list
-    	n = 2*D*d + (N-2)*d*D^2 ; % domain dim(D_{MPS})
+	n = 2*D*d + (N-2)*d*D^2 ; % domain dim(D_{MPS})
     	s= dimension(N,d,D);      % dimension of the variety s=dim(MPS)
         exp_toll=8;
         toll=10^(-exp_toll);
@@ -47,7 +47,7 @@ for N=list
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AKLT point:
         for i=1:N
-            Aklt(1,:,:)= [0,sqrt(2/3);0,0];                   
+            	Aklt(1,:,:)= [0,sqrt(2/3);0,0];                   
         	Aklt(2,:,:)= [-(1/sqrt(3)),0;0,1/(sqrt(3))];
         	Aklt(3,:,:)= [0,0;-(sqrt(2/3)),0];
         end
@@ -72,8 +72,8 @@ for N=list
     	for j=1:launch
         	disp(['launch: ',num2str(j)])
         	v0=randn(1,n);%+1i*randn(1,n);  % random starting vector
-            MAT=vertcat(MAT,[j,toll,bound,zeros(1,6-2)]); %toll,bound,
-            GS= vertcat(GS,[j,toll,bound,zeros(1,n-1-2)]);
+            	MAT=vertcat(MAT,[j,toll,bound,zeros(1,6-2)]); %toll,bound,
+            	GS= vertcat(GS,[j,toll,bound,zeros(1,n-1-2)]);
         
         	LS={};
         	LSmedia={};
@@ -86,76 +86,74 @@ for N=list
         	Last={};
         
         	mat=[];
-            vec=[];
+            	vec=[];
         	   
  			%% 
-            disp(['Algorithm 5 with restart after dim(D_{MPS}) = ',num2str(n)])
- 			timefullnStart=tic;
-            [rhon,condFulln,countn,LSfulln,gs_standard] = NLCG(W, Bfull, v0, nmaxn , toll,nstep,bound);
-            timefullnEnd= toc(timefullnStart);
-            if condFulln == 1
-                disp(['No convergence']);
-            elseif condFulln == 0
-                disp(['Convergence in ',num2str(timefullnEnd),' seconds']);
-            end
+            	disp(['Algorithm 5 with restart after dim(D_{MPS}) = ',num2str(n)])
+ 		timefullnStart=tic;
+            	[rhon,condFulln,countn,LSfulln,gs_standard] = NLCG(W, Bfull, v0, nmaxn , toll,nstep,bound);
+            	timefullnEnd= toc(timefullnStart);
+            	if condFulln == 1
+                	disp(['No convergence']);
+            	elseif condFulln == 0
+                	disp(['Convergence in ',num2str(timefullnEnd),' seconds']);
+            	end
 			%% 
-            disp(['Algorithm 5 with restart after dim(MPS) = ',num2str(s)])
-			timefullsStart=tic;
-			[rhos,condFulls,counts,LSfulls,gs_restart] = NLCG(W, Bfull, v0, nmaxdim , toll,nstep,bound);
-			timefullsEnd=  toc(timefullsStart);
-            if condFulls == 1
-                disp(['No convergence']);
-            elseif condFulls == 0
-                disp(['Convergence in ',num2str(timefullsEnd),' seconds']);
-            end
+            	disp(['Algorithm 5 with restart after dim(MPS) = ',num2str(s)])
+		timefullsStart=tic;
+		[rhos,condFulls,counts,LSfulls,gs_restart] = NLCG(W, Bfull, v0, nmaxdim , toll,nstep,bound);
+		timefullsEnd=  toc(timefullsStart);
+            	if condFulls == 1
+                	disp(['No convergence']);
+            	elseif condFulls == 0
+                	disp(['Convergence in ',num2str(timefullsEnd),' seconds']);
+            	end
 			%% 
-            disp('Algorithm 6: variation of NLCG')
+            	disp('Algorithm 6: variation of NLCG')
            	timeKOdimStart=tic;
-			[rhoKOdim,condKOdim,countKOdim,LSKOdim,timeKO,gs_variation] = NLCG_variation(N,W, Bfull, v0, nmaxdim, toll,nstep,bound);
-			timeKOdimEnd=  toc(timeKOdimStart);
-            if condKOdim == 1
-                disp(['No convergence']);
-            elseif condKOdim == 0
-                disp(['Convergence in ',num2str(timeKOdimEnd),' seconds']);
-            end
+		[rhoKOdim,condKOdim,countKOdim,LSKOdim,timeKO,gs_variation] = NLCG_variation(N,W, Bfull, v0, nmaxdim, toll,nstep,bound);
+		timeKOdimEnd=  toc(timeKOdimStart);
+            	if condKOdim == 1
+                	disp(['No convergence']);
+            	elseif condKOdim == 0
+                	disp(['Convergence in ',num2str(timeKOdimEnd),' seconds']);
+            	end
             
-            %% ground state 
-            ground_states=[gs_standard;gs_restart;gs_variation];
+            	%% ground state 
+            	ground_states=[gs_standard;gs_restart;gs_variation];
           
-			%% Data
-			% total time line search
-		       lsfulln=sum(LSfulln,'all');
-            		lsfulls=sum(LSfulls,'all');
-            		lsKOdim=sum(LSKOdim,'all');
-            		LS=[lsfulln,lsfulls,lsKOdim];
+		%% Data
+		% total time line search
+		lsfulln=sum(LSfulln,'all');
+            	lsfulls=sum(LSfulls,'all');
+            	lsKOdim=sum(LSKOdim,'all');
+            	LS=[lsfulln,lsfulls,lsKOdim];
             		
-            		% mean time line search 
-            		LSmedia=[lsfulln/length(LSfulln),lsfulls/length(LSfulls),lsKOdim/length(LSKOdim)];
+            	% mean time line search 
+            	LSmedia=[lsfulln/length(LSfulln),lsfulls/length(LSfulls),lsKOdim/length(LSKOdim)];
+            	
+            	% mean number of line searches
+            	LSnum=[length(LSfulln),length(LSfulls),length(LSKOdim)];
             		
-            		% mean number of line searches
-            		LSnum=[length(LSfulln),length(LSfulls),length(LSKOdim)];
+            	% time of algorithms
+            	Time=[timefullnEnd,timefullsEnd,timeKOdimEnd];
             		
-            		% time of algorithms
-            		Time=[timefullnEnd,timefullsEnd,timeKOdimEnd];
-            		
-            		% expectation value reached
-            		Rho=[rhon,rhos,rhoKOdim];
+            	% expectation value reached
+            	Rho=[rhon,rhos,rhoKOdim];
 			
-			    % condition of convergence: 0 = yes, 1 = no
-		        Cond=[condFulln,condFulls,condKOdim];
+		% condition of convergence: 0 = yes, 1 = no
+		Cond=[condFulln,condFulls,condKOdim];
           
-          		% number of iterations
- 	           	It=[countn,counts,countKOdim];
+          	% number of iterations
+ 	        It=[countn,counts,countKOdim];
             
         	%end
         
-            mat=vertcat(mat,[It.',Cond.',Rho.',Time.',LS.',LSmedia.',LSnum.']);
-            vec=vertcat(vec,[ground_states]);
+            	mat=vertcat(mat,[It.',Cond.',Rho.',Time.',LS.',LSmedia.',LSnum.']);
+            	vec=vertcat(vec,[ground_states]);
 
         	MAT=vertcat(MAT,mat);
-            GS= vertcat(GS,vec);
-    
-            %ground_states= vertcat(ground_states,vector);
+            	GS= vertcat(GS,vec);
 
         end
         %% writematrix
