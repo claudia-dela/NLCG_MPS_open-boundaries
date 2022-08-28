@@ -4,3 +4,5 @@ The main file runs three algorithm: the NLCG on homogeneous MPS with open bounda
 The code generates data files containing the functional values reached by the algorithms, 
 other relevant informations (runtime, mean time of the line search, number of line searches performed) and 
 it collects the respective vectors that realize the functional values. 
+
+The code makes use of the general tensor network contraction routine ncon() available at https://arxiv.org/abs/1402.0939
