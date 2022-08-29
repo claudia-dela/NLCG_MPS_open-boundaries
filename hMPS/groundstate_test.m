@@ -9,44 +9,42 @@ filelist=["N3","N4","N5","N6","N7",...
     ];
 format long
 
+% AKLT Hamiltonian
 W= MpoAKLT();
+
+% strarting number of sites
 N=5;
+
 for file=["testN3"] %,"N4","N5","N6","N7","N8"] %filelist
     disp(['d = ',num2str(N)])
-Ni=importdata(strjoin([file,".dat"],'')) 
-Nipoint=importdata(strjoin([file,"stationary_points.dat"],'')) 
+    Ni=importdata(strjoin([file,".dat"],'')) 
+    Nipoint=importdata(strjoin([file,"stationary_points.dat"],'')) 
 
-point = str2num(Nipoint{2})
-lineinfile = str2num(Ni{2})
-eigval = real(lineinfile(3))
+    point = str2num(Nipoint{2})
+    lineinfile = str2num(Ni{2})
+    eigval = real(lineinfile(3))
 
-disp(['eigvalue = ',num2str(eigval)])
+    disp(['eigvalue = ',num2str(eigval)])
 
+    d=3; % local dimension
+    D=2; % bond dimension
 
-d=3;%dim fisica
-%N=3;%numero siti
-D=2;%bond dim
+    n = 2*D + d*D^2 ;   % domain dim(D_{hMPS})
+    c= 2*D+d*D^2 -D^2;  % c = dim(D_{hMPS})-dim(G), G = gauge group
+    s= c-1;             % dimension of the variety s = c-1 = dim(hMPS)
 
-n = 2*D + d*D^2 ;   % domain dim(D_{hMPS})
-c= 2*D+d*D^2 -D^2;  % c = dim(D_{hMPS})-dim(G), G = gauge group
-s= c-1;             % dimension of the variety s = c-1 = dim(hMPS)
+    Bfull = TensorB(d,D,n);
+    A=BuildA(Bfull,point);
 
-Bfull = TensorB(d,D,n);
-A=BuildA(Bfull,point);
-% Hamiltonian 
-
-
- %%test MPOMPS
- Alist=A;
- %'products'
- PRODUCT = MPOMPS(N,W,Alist).'
- %'lines'
- LINE = MPScontraction(N,Alist).';
- eigLINE = eigval*LINE;
+    %%  test MPOMPS
+    Alist=A;
+    PRODUCT = MPOMPS(N,W,Alist).'
+    LINE = MPScontraction(N,Alist).';
+    eigLINE = eigval*LINE;
  
-  disp(['norm(MA-aA) = 0 ? ',num2str(norm(PRODUCT-eigLINE))])
-  disp(['differential is zero? ',num2str(norm(MPSdiff(N,Alist,Bfull)))])
-  disp(['vector in kernel? ',num2str(norm(PRODUCT*LINE.'))])
+    disp(['norm(MA-aA) = 0 ? ',num2str(norm(PRODUCT-eigLINE))])
+    disp(['differential is zero? ',num2str(norm(MPSdiff(N,Alist,Bfull)))])
+    disp(['vector in kernel? ',num2str(norm(PRODUCT*LINE.'))])
  
- N=N+1;
+    N=N+1;
 end
