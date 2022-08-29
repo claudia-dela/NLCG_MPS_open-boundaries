@@ -1,6 +1,6 @@
 % Input:
 % N - number of sites
-% M - MPO Hamiltonian
+% W - MPO Hamiltonian
 % B  - structural tensor
 % v0 - starting point (vector), dimension campatible with the hMPS domain
 % nmax - bound for the line search
