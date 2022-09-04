@@ -7,7 +7,6 @@ filelist=["N3","N4","N5","N6","N7",...
     "N29","N30",...
     "N31","N32","N33","N34","N35","N36","N37","N38","N39","N40"...
     ];
-format long
 
 % AKLT Hamiltonian
 W= MpoAKLT();
@@ -17,13 +16,20 @@ N=5;
 
 for file=["testN3"] %,"N4","N5","N6","N7","N8"] %filelist
     disp(['d = ',num2str(N)])
-    Ni=importdata(strjoin([file,".dat"],'')) 
-    Nipoint=importdata(strjoin([file,"stationary_points.dat"],'')) 
-
-    point = str2num(Nipoint{2})
-    lineinfile = str2num(Ni{2})
-    eigval = real(lineinfile(3))
-
+    Ni=importdata(strjoin([file,".dat"],'')); 
+    Nipoint=importdata(strjoin([file,"stationary_points.dat"],'')); 
+    
+    % example: take the first point in the data file
+    if ~isreal(Ni)
+        point = str2num(Nipoint{2});
+        lineinfile = str2num(Ni{2});
+        eigval = real(lineinfile(3));
+    else
+        point = Nipoint(2,:);
+        lineinfile = Ni(2,:);
+        eigval = real(lineinfile(3));
+    end
+    
     disp(['eigvalue = ',num2str(eigval)])
 
     d=3; % local dimension
@@ -38,7 +44,7 @@ for file=["testN3"] %,"N4","N5","N6","N7","N8"] %filelist
 
     %%  test MPOMPS
     Alist=A;
-    PRODUCT = MPOMPS(N,W,Alist).'
+    PRODUCT = MPOMPS(N,W,Alist).';
     LINE = MPScontraction(N,Alist).';
     eigLINE = eigval*LINE;
  
