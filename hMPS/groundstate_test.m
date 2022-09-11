@@ -37,7 +37,7 @@ for file=["testN3"] %,"N4","N5","N6","N7","N8"] %filelist
 
     n = 2*D + d*D^2 ;   % domain dim(D_{hMPS})
     c= 2*D+d*D^2 -D^2;  % c = dim(D_{hMPS})-dim(G), G = gauge group
-    s= c-1;             % dimension of the variety s = c-1 = dim(hMPS)
+    s= c-1;             % expected dimension of the variety s = c-1 = expdim(hMPS)
 
     Bfull = TensorB(d,D,n);
     A=BuildA(Bfull,point);
