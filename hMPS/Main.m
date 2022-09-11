@@ -11,13 +11,13 @@ d=3;                % physical dimension fixed to 3 because AKLT Hamiltonian mod
 D=2;                % bond dimension
 n = 2*D + d*D^2 ;   % domain dim(D_{hMPS})
 c= 2*D+d*D^2 -D^2;  % c = dim(D_{hMPS})-dim(G), G = gauge group
-s= c-1;             % dimension of the variety s = c-1 = dim(hMPS)
+s= c-1;             % expected dimension of the variety s = c-1 = expdim(hMPS)
 
 %% display 
 disp(['physical dimension fixed to ',num2str(d),' because AKLT Hamiltonian describes a spin-1 chain'])
 disp(['bond dimension ',num2str(D)])
 disp(['domain dim(D_{hMPS}) = ',num2str(n)])
-disp(['dimension of the variety dim(hMPS) = ',num2str(s)])
+disp(['expected dimension of the variety expdim(hMPS) = ',num2str(s)])
 %%%%%%%%%%%%%%%%%%%%% AKLT MPO Hamiltonian
 W = MpoAKLT();
 
