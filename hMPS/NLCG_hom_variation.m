@@ -29,7 +29,7 @@ function [rhok,cond,count,TLS, ground_state] = NLCG_hom_variation(N , W, B, v0, 
     	
     	rhok = ExpVal(N,W,A);
     
-    	MM = giveOrthMM(A); % < v1,...,v_s > = vector space orthogonal to the tangent directions of the gauge orbit
+    	MM = giveOrthMM(A,N); % < v1,...,v_s > = vector space orthogonal to the tangent directions of the gauge orbit
                         
     	Borth = TensorBnew(d,D,MM); %tensor of the affine linear space Q+< v1,...,v_s > 
     	gk = MPSgrad(N,W,A,Borth);
@@ -68,7 +68,7 @@ function [rhok,cond,count,TLS, ground_state] = NLCG_hom_variation(N , W, B, v0, 
         	end
         	A=AA;
         
-        	MM = giveOrthMM(A); %< v1,...,v_s > = vector space orthogonal to the tangent directions of gauge orbit
+        	MM = giveOrthMM(A,N); %< v1,...,v_s > = vector space orthogonal to the tangent directions of gauge orbit
         	Borth = TensorBnew(d,D,MM); %tensor of the affine linear space Q+< v1,...,v_s > 
         	gk = MPSgrad(N,W,A,Borth); %update gradient!
         	rhok = ExpVal(N,W,A);
