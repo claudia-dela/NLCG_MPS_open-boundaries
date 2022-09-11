@@ -1,8 +1,9 @@
 % Input: 
 % Alist - hMPS tensora 
+% N - number of sites
 % Output:
 % Matrix whose columns span the tangent space to the gauge orbit, Formula (6.16)
-function [tang] = STang(Alist)
+function [tang] = STang(Alist,N)
 	dims = size(Alist{2});
 	d= dims(1);
 	D= dims(2);
@@ -24,4 +25,11 @@ function [tang] = STang(Alist)
 
 	mR= horzcat(-vR,[-vR(1);vR(2)],[-vR(2);0],[0;-vR(1)]);
 	tang=vertcat(mL,Ain,mR);
+	
+	% first column
+    	all_list = Buildv(Alist).';
+    	inner = -all_list(D+1:end-2);
+    	v_first_vertical = [(N-2)*vL;inner;zeros(D,1)];
+    
+    	tang=horzcat(v_first_vertical, tang);
 end
